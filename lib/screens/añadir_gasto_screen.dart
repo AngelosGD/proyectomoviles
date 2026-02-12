@@ -11,7 +11,11 @@ class AgregarGastoScreen extends StatelessWidget {
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
       ),
-  
+      body: const Center(
+        child: Text(
+          'agregar gasto',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
         ),
       ),
     );
