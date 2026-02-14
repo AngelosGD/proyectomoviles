@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:proyectomoviles/screens/a%C3%B1adir_gasto_screen.dart';
+import 'package:proyectomoviles/screens/añadir_gasto_screen.dart';
 import 'package:proyectomoviles/widgets/expense_grafica.dart';
+import 'package:proyectomoviles/widgets/expense_card.dart';
 import '../models/expense.dart';
 import '../models/category.dart';
 
@@ -36,7 +37,7 @@ class ResumenGastosScreen extends StatelessWidget {
       ),
       Expense(
         titulo: 'Viaje Nuevo',
-        monto: 15000.00,
+        monto: 150000.00,
         categoria: Category.viaje,
         fecha: DateTime(2026, 2, 2),
       ),
@@ -75,14 +76,13 @@ class ResumenGastosScreen extends StatelessWidget {
           // 📊 GRÁFICA
           ExpenseChart(expenses: _expensesPrueba),
           
-          // 📝 Mensaje temporal (aquí irá la lista de tu compañero)
-          const Expanded(
-            child: Center(
-              child: Text(
-                'Aquí va la lista de gastos\n(Tu compañero la hará)',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-                textAlign: TextAlign.center,
-              ),
+          // 📝 LISTA DE GASTOS
+          Expanded(
+            child: ListView.builder(
+              itemCount: _expensesPrueba.length,
+              itemBuilder: (context, index) {
+                return ExpenseCard(expense: _expensesPrueba[index]);
+              },
             ),
           ),
         ],

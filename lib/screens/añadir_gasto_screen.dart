@@ -72,12 +72,20 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
                 // Botón para cancelar el registro
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Cancelar', style: TextStyle(color: Colors.red)),
+                  child: const Text(
+                    'Cancelar',
+                    style: TextStyle(color: Colors.red),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: _enviarDatos,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
-                  child: const Text('Guardar Gasto', style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple,
+                  ),
+                  child: const Text(
+                    'Guardar Gasto',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),
