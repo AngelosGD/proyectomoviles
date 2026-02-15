@@ -12,14 +12,12 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
   final _montoController = TextEditingController();
   String _categoriaSeleccionada = 'Comida';
 
-  // Definición de las 4 categorías mínimas requeridas
   final List<String> _categorias = ['Comida', 'Viaje', 'Divis', 'Trabajo'];
 
   void _enviarDatos() {
     if (_tituloController.text.isEmpty || _montoController.text.isEmpty) {
       return;
     }
-    // Aquí iría la lógica para guardar el gasto antes de cerrar
     Navigator.of(context).pop();
   }
 
