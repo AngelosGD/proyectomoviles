@@ -11,18 +11,18 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
   final _tituloController = TextEditingController();
   final _montoController = TextEditingController();
   
-  // 1. Nueva variable para almacenar la fecha elegida
+
   DateTime? _fechaSeleccionada; 
   String _categoriaSeleccionada = 'Comida';
 
   final List<String> _categorias = ['Comida', 'Viaje', 'Divis', 'Trabajo'];
 
-  // 2. Método para mostrar el calendario
+  
   void _mostrarSelectorFecha() async {
     final fechaActual = DateTime.now();
-    // Permite seleccionar fechas de hasta 1 año en el pasado
+    
     final primeraFecha = DateTime(fechaActual.year - 1, fechaActual.month, fechaActual.day);
-    // Permite seleccionar fechas de hasta 1 año en el futuro (para gastos que se realizarán)
+    
     final ultimaFecha = DateTime(fechaActual.year + 1, fechaActual.month, fechaActual.day);
 
     final fechaElegida = await showDatePicker(
@@ -40,7 +40,6 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
   }
 
   void _enviarDatos() {
-    // Validamos que la fecha también haya sido seleccionada
     if (_tituloController.text.isEmpty || 
         _montoController.text.isEmpty || 
         _fechaSeleccionada == null) {
@@ -67,7 +66,7 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
               decoration: const InputDecoration(labelText: 'Título del gasto'),
             ),
             
-            // 3. Fila que contiene el Monto a la izquierda y la Fecha a la derecha
+            
             Row(
               children: [
                 Expanded(
@@ -79,7 +78,7 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
                 ),
                 const SizedBox(width: 16),
                 
-                // Widget del selector de fecha
+               
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -124,7 +123,7 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // Botón para cancelar el registro
+                
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
                   child: const Text(
