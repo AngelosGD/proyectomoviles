@@ -93,13 +93,26 @@ class _ResumenGastosScreenState extends State<ResumenGastosScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
+           onPressed: () async {
+              
+              final nuevoGasto = await Navigator.push<Expense>(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const AgregarGastoScreen(),
                 ),
               );
+
+              
+              if (nuevoGasto != null) {
+                setState(() {
+                  _expenses.add(nuevoGasto);
+                });
+                
+              
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Gasto agregado exitosamente ')),
+                );
+              }
             },
           ),
         ],

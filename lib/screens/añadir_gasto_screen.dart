@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../models/expense.dart';    
+import '../models/category.dart';   
 
 class AgregarGastoScreen extends StatefulWidget {
   const AgregarGastoScreen({super.key});
@@ -11,18 +13,22 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
   final _tituloController = TextEditingController();
   final _montoController = TextEditingController();
   
-
   DateTime? _fechaSeleccionada; 
   String _categoriaSeleccionada = 'Comida';
 
   final List<String> _categorias = ['Comida', 'Viaje', 'Divis', 'Trabajo'];
 
-  
+  @override
+  void dispose() {
+    
+    _tituloController.dispose();
+    _montoController.dispose();
+    super.dispose();
+  }
+
   void _mostrarSelectorFecha() async {
     final fechaActual = DateTime.now();
-    
     final primeraFecha = DateTime(fechaActual.year - 1, fechaActual.month, fechaActual.day);
-    
     final ultimaFecha = DateTime(fechaActual.year + 1, fechaActual.month, fechaActual.day);
 
     final fechaElegida = await showDatePicker(
@@ -40,12 +46,47 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
   }
 
   void _enviarDatos() {
-    if (_tituloController.text.isEmpty || 
-        _montoController.text.isEmpty || 
+    final montoIngresado = double.tryParse(_montoController.text);
+    final montoInvalido = montoIngresado == null || montoIngresado <= 0;
+
+    
+    if (_tituloController.text.trim().isEmpty || 
+        montoInvalido || 
         _fechaSeleccionada == null) {
+      
+      
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Datos inválidos'),
+          content: const Text('Por favor, ingresa un título, un monto válido y selecciona una fecha.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Aceptar'),
+            ),
+          ],
+        ),
+      );
       return;
     }
-    Navigator.of(context).pop();
+
+    
+    final categoriaEnum = Category.values.firstWhere(
+      (cat) => cat.nombre == _categoriaSeleccionada,
+      orElse: () => Category.comida,
+    );
+
+    
+    final nuevoGasto = Expense(
+      titulo: _tituloController.text.trim(),
+      monto: montoIngresado,
+      categoria: categoriaEnum,
+      fecha: _fechaSeleccionada!,
+    );
+
+    
+    Navigator.of(context).pop(nuevoGasto);
   }
 
   @override
@@ -65,8 +106,6 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
               controller: _tituloController,
               decoration: const InputDecoration(labelText: 'Título del gasto'),
             ),
-            
-            
             Row(
               children: [
                 Expanded(
@@ -77,8 +116,6 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
                   ),
                 ),
                 const SizedBox(width: 16),
-                
-               
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -98,7 +135,6 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
                 ),
               ],
             ),
-            
             const SizedBox(height: 20),
             Row(
               children: [
@@ -123,9 +159,9 @@ class _AgregarGastoScreenState extends State<AgregarGastoScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                
                 TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
+                
+                  onPressed: () => Navigator.of(context).pop(), 
                   child: const Text(
                     'Cancelar',
                     style: TextStyle(color: Colors.red),
