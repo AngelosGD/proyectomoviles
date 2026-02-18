@@ -5,10 +5,7 @@ import '../models/category.dart';
 class EditExpenseDialog extends StatefulWidget {
   final Expense expense;
 
-  const EditExpenseDialog({
-    super.key,
-    required this.expense,
-  });
+  const EditExpenseDialog({super.key, required this.expense});
 
   @override
   State<EditExpenseDialog> createState() => _EditExpenseDialogState();
@@ -24,7 +21,9 @@ class _EditExpenseDialogState extends State<EditExpenseDialog> {
   void initState() {
     super.initState();
     _tituloController = TextEditingController(text: widget.expense.titulo);
-    _montoController = TextEditingController(text: widget.expense.monto.toString());
+    _montoController = TextEditingController(
+      text: widget.expense.monto.toString(),
+    );
     _categoriaSeleccionada = widget.expense.categoria;
     _fechaSeleccionada = widget.expense.fecha;
   }
@@ -107,10 +106,7 @@ class _EditExpenseDialogState extends State<EditExpenseDialog> {
               children: [
                 const Text(
                   'Editar Gasto',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 IconButton(
                   icon: const Icon(Icons.close),
@@ -142,7 +138,7 @@ class _EditExpenseDialogState extends State<EditExpenseDialog> {
             const SizedBox(height: 16),
 
             DropdownButtonFormField<Category>(
-              value: _categoriaSeleccionada,
+              initialValue: _categoriaSeleccionada,
               decoration: const InputDecoration(
                 labelText: 'Categoría',
                 border: OutlineInputBorder(),

@@ -20,44 +20,7 @@ class _ResumenGastosScreenState extends State<ResumenGastosScreen> {
   void initState() {
     super.initState();
     // datos de prueba
-    _expenses = [
-      Expense(
-        titulo: 'Curso Dart',
-        monto: 1009.50,
-        categoria: Category.trabajo,
-        fecha: DateTime(2026, 2, 10),
-      ),
-      Expense(
-        titulo: 'Cine',
-        monto: 2020.00,
-        categoria: Category.divis,
-        fecha: DateTime(2026, 2, 10),
-      ),
-      Expense(
-        titulo: 'Mi Viaje',
-        monto: 234.00,
-        categoria: Category.viaje,
-        fecha: DateTime(2026, 2, 3),
-      ),
-      Expense(
-        titulo: 'Buffet',
-        monto: 758.00,
-        categoria: Category.comida,
-        fecha: DateTime(2026, 2, 5),
-      ),
-      Expense(
-        titulo: 'Viaje Nuevo',
-        monto: 1500.00,
-        categoria: Category.viaje,
-        fecha: DateTime(2026, 2, 2),
-      ),
-      Expense(
-        titulo: 'Comida',
-        monto: 700.00,
-        categoria: Category.comida,
-        fecha: DateTime(2026, 2, 2),
-      ),
-    ];
+    _expenses = [];
   }
 
   void _abrirDialogoEdicion(Expense expense, int index) async {
@@ -70,14 +33,14 @@ class _ResumenGastosScreenState extends State<ResumenGastosScreen> {
       setState(() {
         if (result['action'] == 'edit') {
           _expenses[index] = result['expense'];
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Gasto actualizado ✓')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Gasto actualizado ')));
         } else if (result['action'] == 'delete') {
           _expenses.removeAt(index);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Gasto eliminado 🗑️')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Gasto eliminado')));
         }
       });
     }
@@ -93,8 +56,7 @@ class _ResumenGastosScreenState extends State<ResumenGastosScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-           onPressed: () async {
-              
+            onPressed: () async {
               final nuevoGasto = await Navigator.push<Expense>(
                 context,
                 MaterialPageRoute(
@@ -102,13 +64,11 @@ class _ResumenGastosScreenState extends State<ResumenGastosScreen> {
                 ),
               );
 
-              
               if (nuevoGasto != null) {
                 setState(() {
                   _expenses.add(nuevoGasto);
                 });
-                
-              
+
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Gasto agregado exitosamente ')),
                 );
@@ -120,17 +80,14 @@ class _ResumenGastosScreenState extends State<ResumenGastosScreen> {
       body: Column(
         children: [
           ExpenseChart(expenses: _expenses),
-          
+
           Expanded(
             child: _expenses.isEmpty
                 ? const Center(
                     child: Text(
-                      'No hay gastos registrados\nPresiona + para agregar uno',
+                      'aun sin gastos',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                   )
                 : ListView.builder(
@@ -138,7 +95,8 @@ class _ResumenGastosScreenState extends State<ResumenGastosScreen> {
                     itemBuilder: (context, index) {
                       return ExpenseCard(
                         expense: _expenses[index],
-                        onTap: () => _abrirDialogoEdicion(_expenses[index], index),
+                        onTap: () =>
+                            _abrirDialogoEdicion(_expenses[index], index),
                       );
                     },
                   ),
